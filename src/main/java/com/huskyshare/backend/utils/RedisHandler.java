@@ -1,12 +1,18 @@
 package com.huskyshare.backend.utils;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.List;
 
+@Component
+@Scope(scopeName = "singleton")
 public class RedisHandler {
+
     public static JedisPool jedisClient = new JedisPool(new JedisPoolConfig(), "localhost");
 
     public void store(String key, String value){
@@ -31,6 +37,11 @@ public class RedisHandler {
 
     public Jedis getJedis(){
         return jedisClient.getResource();
+    }
+
+    @Bean
+    public RedisHandler getRedisHandler(){
+        return new RedisHandler();
     }
 
 }

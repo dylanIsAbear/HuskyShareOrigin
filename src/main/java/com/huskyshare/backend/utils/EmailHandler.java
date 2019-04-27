@@ -1,5 +1,10 @@
 package com.huskyshare.backend.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -11,17 +16,22 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
+@Component
+@Scope(scopeName = "singleton")
 public class EmailHandler {
 
-    public final static String emailAccount = "dylanisabear@gmail.com";
-    public final static String emailPassword = "20001018lyh1";
-    public final static String gmailHost = "smtp.gmail.com";
+    private final static String emailAccount = "";   //Email goes here
+    private final static String emailPassword = "";  //Pwd goes here
+    private final static String gmailHost = "smtp.gmail.com";
+
+    @Autowired
+    private RedisHandler redisHandler;
 
     public String sendCode(String address) throws Exception {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.host", gmailHost);
         properties.put("mail.smtp.port", "587");
 
         Session session = Session.getInstance(properties, new javax.mail.Authenticator()
@@ -43,6 +53,8 @@ public class EmailHandler {
 
         int code = (int)(Math.random()*10000);
 
+        redisHandler.store(address.toLowerCase(), code + "");
+
         message.setContent("Hello husky!\nHere is your code: " + code, "text/html;charset=UTF-8");
 
         message.setSentDate(new Date());
@@ -54,13 +66,9 @@ public class EmailHandler {
         return "SEND_SUCCESS";
     }
 
-    public static void main(String args[]){
-        EmailHandler emailHandler = new EmailHandler();
-        try {
-            System.out.println(emailHandler.sendCode("tinachoo1104@163.com"));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+    public boolean compareCode(String address, String code){ return redisHandler.get(address.toLowerCase()).equals(code); }
+
+    @Bean
+    public EmailHandler getEmailHandler(){ return new EmailHandler();}
 
 }

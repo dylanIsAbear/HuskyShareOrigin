@@ -2,6 +2,7 @@ package com.huskyshare.backend.service;
 
 import com.huskyshare.backend.dao.UserDao;
 import com.huskyshare.backend.entity.User;
+import com.huskyshare.backend.utils.EmailHandler;
 import com.huskyshare.backend.utils.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class UserService {
    @Autowired
    private UserDao userDao;
 
+   @Autowired
+   private EmailHandler emailHandler;
+
    public String register(User user) {
       if (userDao.findByEmail(user.getEmail()) == null) {
          if (userDao.findByUsername(user.getUsername()) == null) {
@@ -23,6 +27,15 @@ public class UserService {
          return "DUPLICATE_USERNAME";
       }
       return "DUPLICATE_EMAIL";
+   }
+
+   public String registry(User user, String code){
+      if(userDao.findByEmail(user.getEmail()) != null) return "DUPLICATE_EMAIL";
+      if(userDao.findByUsername(user.getUsername()) != null) return "DUPLICATE_USERNAME";
+      if(!emailHandler.compareCode(user.getEmail(), code)) return "WRONG_CODE";
+      user.setConfirmed(true);
+      userDao.save(user);
+      return "SUCCESS";
    }
 
    public List<User> findAll() {
@@ -40,6 +53,8 @@ public class UserService {
       }
       return "ERROR_INVALID";
    }
+
+   public User findUserById(Long id){ return userDao.findById(id.intValue());}
 
    public User findUserByEmail(String email){
       return userDao.findByEmail(email);
