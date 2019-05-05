@@ -1,6 +1,5 @@
 package com.huskyshare.backend.config;
 
-import com.huskyshare.backend.entity.SecurityUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,9 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-@EnableGlobalMethodSecurity(prePostEnable=true)
 @EnableWebSecurity
-@EnableJpaRepositories
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
