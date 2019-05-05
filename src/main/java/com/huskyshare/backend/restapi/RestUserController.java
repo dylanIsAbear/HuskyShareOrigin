@@ -43,14 +43,25 @@ public class RestUserController {
         return response;
     }
 
-    @GetMapping(value = "/rest/user/validate")
+    @PostMapping(value = "/rest/user/validate")
     public Jsonable<Object> confirmUser(@RequestBody ValidationForm form){
         Jsonable<Object> response = new Jsonable<>();
         if(emailHandler.compareCode(form.getEmailAddress(), form.getCode())){
             response.setStatus("201");
             response.setMsg("ok");
             response.setE(null);
+            response.setDate(new Date());
+            response.setDescription("Confirm successfully");
+        }else{
+            response.setDescription("Validation code is incorrect!");
+            response.setE(null);
+            response.setMsg("Failed");
+            response.setDate(new Date());
+            response.setStatus("403");
         }
+
+        return response;
     }
+
 
 }

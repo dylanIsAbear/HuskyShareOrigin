@@ -62,6 +62,8 @@ public class UserController {
       return modelAndView;
    }
 
+
+
    /**
     * 提交注册表单
     * 若注册成功则跳转至登录界面
