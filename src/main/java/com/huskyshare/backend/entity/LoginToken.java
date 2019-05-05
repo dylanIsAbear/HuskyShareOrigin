@@ -1,10 +1,13 @@
 package com.huskyshare.backend.entity;
 
+import com.huskyshare.backend.json_entity.Jsonable;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_token")
-public class LoginToken {
+public class LoginToken implements Serializable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "token_id")

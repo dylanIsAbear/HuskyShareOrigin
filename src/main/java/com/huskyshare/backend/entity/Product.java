@@ -1,12 +1,15 @@
 package com.huskyshare.backend.entity;
 
+import com.huskyshare.backend.json_entity.Jsonable;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
 @Entity
 @Table(name = "tb_product")
-public class Product {
+public class Product implements Serializable {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,13 +1,15 @@
 package com.huskyshare.backend.entity;
 
+import com.huskyshare.backend.json_entity.Jsonable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "tb_category")
-public class Category {
+public class Category implements Serializable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "category_id")

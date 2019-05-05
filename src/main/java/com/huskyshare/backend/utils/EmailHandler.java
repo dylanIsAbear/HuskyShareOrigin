@@ -20,8 +20,8 @@ import java.util.Properties;
 @Scope(scopeName = "singleton")
 public class EmailHandler {
 
-    private final static String emailAccount = "";   //Email goes here
-    private final static String emailPassword = "";  //Pwd goes here
+    private final static String emailAccount = "dylanisabear@gmail.com";   //Email goes here
+    private final static String emailPassword = "20001018lyh1";  //Pwd goes here
     private final static String gmailHost = "smtp.gmail.com";
 
     @Autowired

@@ -29,6 +29,15 @@ public class UserService {
       return "DUPLICATE_EMAIL";
    }
 
+   public void save(User user){
+       user.setConfirmed(false);
+       userDao.save(user);
+   }
+
+   public void confirm(String email){
+
+   }
+
    public String registry(User user, String code){
       if(userDao.findByEmail(user.getEmail()) != null) return "DUPLICATE_EMAIL";
       if(userDao.findByUsername(user.getUsername()) != null) return "DUPLICATE_USERNAME";
