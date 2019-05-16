@@ -30,7 +30,6 @@ public class UserService {
    }
 
    public void save(User user){
-       user.setConfirmed(false);
        userDao.save(user);
    }
 
@@ -62,6 +61,8 @@ public class UserService {
       }
       return "ERROR_INVALID";
    }
+
+   public User findUserByUsername(String username){ return userDao.findByUsername(username);}
 
    public User findUserById(Long id){ return userDao.findById(id.intValue());}
 

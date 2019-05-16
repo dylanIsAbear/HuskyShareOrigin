@@ -48,9 +48,31 @@ public class User implements Serializable{
    @Column(nullable = false)
    private boolean confirmed;
 
-   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-   private Set<Role> roles;
+   @Column(name = "user_role")
+   private String role = "USER";
+
+   @Column(name = "user_permission")
+   private String permission;
+
+   public String getPermission() {
+      return permission;
+   }
+
+   public void setPermission(String permission) {
+      this.permission = permission;
+   }
+
+   public String getRole() {
+      return role;
+   }
+
+   public void setRole(String role) {
+      this.role = role;
+   }
+
+   public User(){
+
+   }
 
    public boolean isConfirmed() {
       return confirmed;
@@ -114,18 +136,9 @@ public class User implements Serializable{
       this.password = password;
    }
 
-   public Set<Role> getRoles() {
-      return roles;
-   }
-
-   public void setRoles(Set<Role> roles) {
-      this.roles = roles;
-   }
-
    public User(User user){
       this.confirmed=user.isConfirmed();
       this.email=user.getEmail();
-      this.roles = user.getRoles();
       this.username = user.getUsername();
       this.lastName =user.getLastName();
       this.id = user.getId();
