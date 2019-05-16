@@ -1,18 +1,22 @@
 package com.huskyshare.backend.utils;
 
+import com.huskyshare.backend.entity.Code;
+import com.huskyshare.backend.service.ValidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
 
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -25,7 +29,50 @@ public class EmailHandler {
     private final static String gmailHost = "smtp.gmail.com";
 
     @Autowired
-    private RedisHandler redisHandler;
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    TemplateEngine templateEngine;
+
+    @Autowired
+    ValidService validService;
+
+    /**
+     * BUGS!!! unknown error 530
+     * @param address
+     * @return
+     * @throws Exception
+     */
+    public String sendVCode(String address) throws Exception {
+        try{
+            SimpleMailMessage message =  new SimpleMailMessage();
+            message.setFrom(emailAccount);
+            message.setTo(address);
+            int code = (int)(Math.random()*10000);
+            //redisHandler.store(address.toLowerCase(), code + "");
+            Code c = new Code();
+            c.setCode(""+code);
+            c.setEmail(address);
+            validService.save(c);
+            message.setSentDate(new Date());
+            message.setSubject("Welcome from HuskyShare!!");
+            message.setText("Hello husky!\nHere is your code: " + code);
+            mailSender.send(message);
+        }catch (MailException e){
+            e.printStackTrace();
+            return "SEND_FAIL";
+        }
+
+        return "SEND_SUCCESS";
+    }
+
+    public boolean compareCode(String address, String code){ return validService.findCodebyEmail(address.toLowerCase()).equals(code);}
+
+    @Bean
+    public EmailHandler getEmailHandler(){ return new EmailHandler();}
 
     public String sendCode(String address) throws Exception {
         Properties properties = new Properties();
@@ -45,15 +92,19 @@ public class EmailHandler {
 
         MimeMessage message = new MimeMessage(session);
 
-        message.setFrom(new InternetAddress(emailAccount, "HuskyShare2019:)", "UTF-8"));
+        message.setFrom(new InternetAddress(emailAccount, "HuskyShare@2019", "UTF-8"));
 
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(address, "USER_CC", "UTF-8"));
 
-        message.setSubject("Signing up for HuskyShare :)");
+        message.setSubject("Signing up for HuskyShare OwO");
 
         int code = (int)(Math.random()*10000);
 
-        redisHandler.store(address.toLowerCase(), code + "");
+        //redisHandler.store(address.toLowerCase(), code + "");
+        Code c = new Code();
+        c.setCode(""+code);
+        c.setEmail(address);
+        validService.save(c);
 
         message.setContent("Hello husky!\nHere is your code: " + code, "text/html;charset=UTF-8");
 
@@ -66,9 +117,8 @@ public class EmailHandler {
         return "SEND_SUCCESS";
     }
 
-    public boolean compareCode(String address, String code){ return redisHandler.get(address.toLowerCase()).equals(code); }
-
-    @Bean
-    public EmailHandler getEmailHandler(){ return new EmailHandler();}
+    public void sendVerifiedEmail(String name){
+        String content = "Congratulations!\n You can free buy & share in huskyshare.com now! OwO";
+    }
 
 }

@@ -4,6 +4,7 @@ import com.huskyshare.backend.entity.User;
 import com.huskyshare.backend.exception.UnauthorizedException;
 import com.huskyshare.backend.json_entity.ResponseBean;
 import com.huskyshare.backend.service.UserService;
+import com.huskyshare.backend.utils.EmailHandler;
 import com.huskyshare.backend.utils.JWTUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -22,11 +23,17 @@ public class LoginSignUpController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EmailHandler emailHandler;
+
     @PostMapping("/rest/v1.0/login")
     public ResponseBean login(@RequestParam("username") String username,
                               @RequestParam("password") String password){
         User user = userService.findUserByUsername(username);
-        if (user == null) return new ResponseBean(401, "Login Fail", null);;
+        if (user == null){
+            user = userService.findUserByEmail(username);
+            if(user==null) return new ResponseBean(401, "Login Fail", null);
+        }
 
         if(user.getPassword().equals(password)){
             return new ResponseBean(201, "Success", JWTUtil.sign(username, password));
@@ -72,7 +79,28 @@ public class LoginSignUpController {
         user.setLastName(last);
         user.setPermission("post");
         userService.save(user);
+        try {
+            emailHandler.sendCode(email);
+        }catch (Exception e){
+
+        }
         return new ResponseBean(201, "Sign up successfully!", null);
+    }
+
+    @GetMapping("rest/v1.0/validate")
+    public ResponseBean verifyCode(@RequestParam String email,
+                                   @RequestParam String code){
+        ResponseBean response;
+        if(emailHandler.compareCode(email, code)){
+            response = new ResponseBean(201, "Verify successfully!", null);
+            User u = userService.findUserByEmail(email.toLowerCase());
+            u.setConfirmed(true);
+            userService.save(u);
+
+        }else{
+            response = new ResponseBean(401, "Verify failed", null);
+        }
+        return response;
     }
 
 }

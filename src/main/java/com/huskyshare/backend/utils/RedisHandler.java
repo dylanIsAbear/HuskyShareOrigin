@@ -1,47 +1,47 @@
 package com.huskyshare.backend.utils;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-
-import java.util.List;
 
 @Component
 @Scope(scopeName = "singleton")
 public class RedisHandler {
 
-    public static JedisPool jedisClient = new JedisPool(new JedisPoolConfig(), "localhost");
+    private static RedisHandler handler = new RedisHandler();
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+
+    @Test
+    public void stringTest(){
+        stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.opsForValue().set("1", "2");
+        System.out.println(stringRedisTemplate.opsForValue().get("1"));
+    }
 
     public void store(String key, String value){
-        jedisClient.getResource().set(key, value);
+        //stringRedisTemplate.opsForValue().set(key, value);
+        RedisSerializer redisSerializer =new StringRedisSerializer();
+        stringRedisTemplate.setKeySerializer(redisSerializer);
+        //ValueOperations<String,String> vo = redisTemplate.opsForValue();
+        //vo.set(key, value);
     }
 
     public String get(String key){
-        return jedisClient.getResource().get(key);
-    }
-
-    public void storeList(String index, String[] value){
-        for(String v : value)   jedisClient.getResource().lpush(index, v);
-    }
-
-    public void storeList(String index, String value){
-        jedisClient.getResource().lpush(index, value);
-    }
-
-    public List<String> getList(String key, int length){
-        return jedisClient.getResource().lrange(key, 0 , length);
-    }
-
-    public Jedis getJedis(){
-        return jedisClient.getResource();
+        return "";
     }
 
     @Bean
     public RedisHandler getRedisHandler(){
-        return new RedisHandler();
+        return handler;
     }
 
 }
