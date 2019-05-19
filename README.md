@@ -4,19 +4,9 @@
 
 Frontend: only edit files in `src/main/resources`.
 
+
 ### Important notes
-Start all page templates with the following code:
-```html
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:include="fragments/base :: head"/>
-    <title id="pageTitle">Page title</title>
-    <!-- other stuff to add -->
-</head>
-```
-Add the page title (without suffix " | HuskyShare" as it is added by default), and
-add other stuff such as css below \<title\>.
+Found any supports files and docs on https://drive.google.com/drive/folders/0ACRawbuRWIiwUk9PVA
 
 ### Directory structure
 * `css`, `js`, `img`, etc. - static resource files.
@@ -24,8 +14,6 @@ add other stuff such as css below \<title\>.
 * `templates/fragments` - html fragments. Not to be served standalone. Only to be included in other html files.
 
 ### APIs used
-* `Thymeleaf` - html template engine. Learn about it [here](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html).
-* Not really anything else for now. Maybe `React` later.
-
-## Backend guide
-* Backend doesn't need a guide.
+* RESTFUL structure
+* JSON when dissolving HTTP request/response
+* Shiro as Security manager
