@@ -3,7 +3,6 @@ package com.huskyshare.backend.utils;
 import com.huskyshare.backend.entity.Code;
 import com.huskyshare.backend.service.ValidService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -25,10 +24,8 @@ import java.util.Properties;
 @Scope(scopeName = "singleton")
 public class EmailHandler {
 
-    @Value("${spring.mail.username}")
-    private String emailAccount = "dylanisabear@gmail.com";   //Email goes here
-    @Value("${spring.mail.password}")
-    private String emailPassword;  //Pwd goes here
+    private final static String emailAccount = "dylanisabear@gmail.com";   //Email goes here
+    private final static String emailPassword = "20001018lyh1";  //Pwd goes here
     private final static String gmailHost = "smtp.gmail.com";
 
     @Autowired
