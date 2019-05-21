@@ -20,6 +20,9 @@ Found any supports files and docs on https://drive.google.com/drive/folders/0ACR
 * `templates/fragments` - html fragments. Not to be served standalone. Only to be included in other html files.
 
 ### APIs used
-* RESTFUL structure
-* JSON when dissolving HTTP request/response
-* Shiro as Security manager
+* RESTFUL structure, found more at https://restfulapi.net/rest-architectural-constraints/
+* JSON when dissolving HTTP request/response, JWT library from https://github.com/auth0/java-jwt
+* Shiro as Security manager, more about Apache Shiro at https://shiro.apache.org/tutorial.html
+* Spring/Spring boot, Spring tutorial https://www.baeldung.com/spring-boot
+* Spring data jpa with JDBC & MySQL
+* Nginx as cluster, beginner guide of Nginx and cluster at http://nginx.org/en/docs/beginners_guide.html
