@@ -12,6 +12,7 @@ Found any supports files and docs on https://drive.google.com/drive/folders/0ACR
 * RedisTemplate cannot be @Autowired
 * Redis client cannot be initialized
 * Profile entity and ProfileDao cannot be initialized
+* Spring mailSender cannot send mail with Error 501
 
 ### Directory structure
 * `css`, `js`, `img`, etc. - static resource files.
