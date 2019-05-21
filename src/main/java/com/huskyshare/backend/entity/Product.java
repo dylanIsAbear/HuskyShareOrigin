@@ -1,7 +1,5 @@
 package com.huskyshare.backend.entity;
 
-import com.huskyshare.backend.json_entity.Jsonable;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;

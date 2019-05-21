@@ -1,13 +1,9 @@
 package com.huskyshare.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.huskyshare.backend.json_entity.Jsonable;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 
 @Entity
@@ -53,6 +49,17 @@ public class User implements Serializable{
 
    @Column(name = "user_permission")
    private String permission;
+
+   @Column(name = "profile_id")
+   private Integer profile;
+
+   public Integer getProfile() {
+      return profile;
+   }
+
+   public void setProfile(Integer profile) {
+      this.profile = profile;
+   }
 
    public String getPermission() {
       return permission;

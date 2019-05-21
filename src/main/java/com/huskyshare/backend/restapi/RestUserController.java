@@ -1,14 +1,22 @@
 package com.huskyshare.backend.restapi;
 
-import com.huskyshare.backend.form.ValidationForm;
-import com.huskyshare.backend.json_entity.JSONUser;
-import com.huskyshare.backend.json_entity.Jsonable;
+import com.huskyshare.backend.entity.Profile;
+import com.huskyshare.backend.entity.Tag;
+import com.huskyshare.backend.entity.User;
+import com.huskyshare.backend.json_entity.ResponseBean;
 import com.huskyshare.backend.service.UserService;
 import com.huskyshare.backend.utils.EmailHandler;
+import com.huskyshare.backend.utils.JWTUtil;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class RestUserController {
@@ -17,51 +25,86 @@ public class RestUserController {
     @Autowired
     private EmailHandler emailHandler;
 
+    @Value("${huskyshare.resource.profile.dir}")
+    String uploadDir;
+    //local directory to save pictures
+
     /**
-     * @status: 201 Success
-     *          403 No Result
-     *
-     * @param uid
-     * @return json response
+     * @test NO TEST YET
+     * @param file User's profile picture
+     * @param description edited description
+     * @param address location/school/dorm
+     * @param Authorization login token
+     * @return 201 if success,
+     *         402 if picture's format is illegal
+     *         401 if failed to upload picture
      */
-    @GetMapping(value = "/rest/user/get/{uid}")
-    public Jsonable<JSONUser> searchUser(@PathVariable Long uid){
-        Jsonable<JSONUser> response = new Jsonable<>();
-        response.setDate(new Date());
-        if(userService.findUserById(uid) == null){
-            response.setDescription("No user found");
-            response.setE(null);
-            response.setMsg("false");
-            response.setStatus("403");
-        }else{
-            response.setDescription("Success");
-            JSONUser user = new JSONUser(userService.findUserById(uid));
-            response.setE(user);
-            response.setMsg("ok");
-            response.setStatus("201");
+    @PostMapping(name = "/rest/v1.0/profile")
+    @RequiresAuthentication
+    @RequiresRoles("USER")
+    public ResponseBean upload(@RequestParam MultipartFile file,
+                               @RequestParam String description,
+                               @RequestParam String address,
+                               @RequestHeader String Authorization){
+
+        if (file.isEmpty()){ return new ResponseBean(401, "Empty picture", null); }
+
+        String fileName = file.getOriginalFilename();
+        System.out.println(fileName);
+        String suffixName = fileName.split("\\.")[1];
+
+        if(!(suffixName.contains("png") || suffixName.contains("jpg") || suffixName.contains("jpeg"))) return new ResponseBean(402, "Bad picture format", null);
+
+        String fileDir = uploadDir;
+        File pic = new File(fileDir + JWTUtil.getUsername(Authorization));
+        System.out.println(fileDir + fileName);
+        //if(!pic.getParentFile().exists()){pic.getParentFile().mkdirs();}
+
+        try{
+            file.transferTo(pic);
+
+            Profile profile = new Profile();
+            profile.setDescription(description);
+            profile.setPicture(pic.getPath());
+            profile.setAddress(address);
+
+            User user = userService.findUserByUsername(JWTUtil.getUsername(Authorization));
+            profile.setUser_id(user.getId());
+            userService.saveProfile(profile);
+
+            user.setProfile(userService.findProfileByUid(user.getId()).getProfile_id());
+            userService.save(user);
+
+            return new ResponseBean(201, "Upload profile successfully", null);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return response;
+
+        return new ResponseBean(401, "Upload profile failed", null);
     }
 
-    @PostMapping(value = "/rest/user/validate")
-    public Jsonable<Object> confirmUser(@RequestBody ValidationForm form){
-        Jsonable<Object> response = new Jsonable<>();
-        if(emailHandler.compareCode(form.getEmailAddress(), form.getCode())){
-            response.setStatus("201");
-            response.setMsg("ok");
-            response.setE(null);
-            response.setDate(new Date());
-            response.setDescription("Confirm successfully");
-        }else{
-            response.setDescription("Validation code is incorrect!");
-            response.setE(null);
-            response.setMsg("Failed");
-            response.setDate(new Date());
-            response.setStatus("403");
-        }
-
-        return response;
+    @GetMapping(name = "/rest/v1.0/profile")
+    public ResponseBean getProfile(@RequestHeader String Authorization){
+        Profile profile = userService.findProfile(
+                userService.findUserByUsername(JWTUtil.getUsername(Authorization)).getId());
+        return new ResponseBean(201, "Successful", profile);
     }
+
+  /* @PostMapping(name = "/rest/v1.0/tag")
+    public ResponseBean uploadTag(@RequestParam String tags,
+                                  @RequestHeader String Authorization){
+        User user = userService.findUserByUsername(JWTUtil.getUsername(Authorization));
+        int times = 0;
+        String[] tagList = tags.split(",");
+        for(String tag : tagList){
+            Tag t = new Tag();
+            t.setContent(tag);
+            t.setUid(user.getId());
+            userService.saveTag(t);
+            times++;
+        }
+        return new ResponseBean(201, "Successfully upload "  + " tags", null);
+    }*/
 
 
 }
