@@ -1,5 +1,7 @@
 # HuskyShare
 
+# Hands-on C2C trading & sharing platform for UW students only
+
 ## Frontend guide
 
 Frontend: only edit files in `src/main/resources`.
