@@ -26,7 +26,7 @@ public class LoginSignUpController {
     @Autowired
     EmailHandler emailHandler;
 
-    @PostMapping("/rest/v1.0/login")
+    @RequestMapping(value = "/rest/v1.0/login", method = RequestMethod.POST)
     public ResponseBean login(@RequestParam("username") String username,
                               @RequestParam("password") String password){
         User user = userService.findUserByUsername(username);
@@ -42,13 +42,13 @@ public class LoginSignUpController {
         }
     }
 
-    @GetMapping("/rest/v1.0/testauth")
+    @GetMapping(value = "/rest/v1.0/testauth")
     @RequiresAuthentication
     public ResponseBean response(){
         return new ResponseBean(200, "You are authenticated", null);
     }
 
-    @GetMapping("/rest/v1.0/testrole")
+    @GetMapping(value = "/rest/v1.0/testrole")
     @RequiresAuthentication
     @RequiresRoles("USER")
     public ResponseBean requireRole() {
@@ -61,7 +61,7 @@ public class LoginSignUpController {
         return new ResponseBean(401, "Unauthorized", null);
     }
 
-    @PostMapping("/rest/v1.0/signup")
+    @PostMapping(value = "/rest/v1.0/signup")
     public ResponseBean signup(@RequestParam String username,
                                @RequestParam String email,
                                @RequestParam String password,
@@ -87,7 +87,7 @@ public class LoginSignUpController {
         return new ResponseBean(201, "Sign up successfully!", null);
     }
 
-    @GetMapping("rest/v1.0/validate")
+    @PostMapping(value = "/rest/v1.0/verify")
     public ResponseBean verifyCode(@RequestParam String email,
                                    @RequestParam String code){
         ResponseBean response;

@@ -1,9 +1,9 @@
 package com.huskyshare.backend.restapi;
 
 import com.huskyshare.backend.entity.Profile;
-import com.huskyshare.backend.entity.Tag;
 import com.huskyshare.backend.entity.User;
 import com.huskyshare.backend.json_entity.ResponseBean;
+import com.huskyshare.backend.json_entity.ResponseProfile;
 import com.huskyshare.backend.service.UserService;
 import com.huskyshare.backend.utils.EmailHandler;
 import com.huskyshare.backend.utils.JWTUtil;
@@ -16,10 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
-public class RestUserController {
+public class RestUserProfileController {
     @Autowired
     private UserService userService;
     @Autowired
@@ -39,7 +38,7 @@ public class RestUserController {
      *         402 if picture's format is illegal
      *         401 if failed to upload picture
      */
-    @PostMapping(name = "/rest/v1.0/profile")
+    @RequestMapping(value = "/rest/v1.0/profile", method = RequestMethod.POST)
     @RequiresAuthentication
     @RequiresRoles("USER")
     public ResponseBean upload(@RequestParam MultipartFile file,
@@ -83,14 +82,17 @@ public class RestUserController {
         return new ResponseBean(401, "Upload profile failed", null);
     }
 
-    @GetMapping(name = "/rest/v1.0/profile")
+    @RequestMapping(value = "/rest/v1.0/profile", method = RequestMethod.GET)
+    @RequiresAuthentication
+    @RequiresRoles("USER")
     public ResponseBean getProfile(@RequestHeader String Authorization){
         Profile profile = userService.findProfile(
                 userService.findUserByUsername(JWTUtil.getUsername(Authorization)).getId());
-        return new ResponseBean(201, "Successful", profile);
+        ResponseProfile data = new ResponseProfile(profile);
+        return new ResponseBean(201, "Successful", data);
     }
 
-  /* @PostMapping(name = "/rest/v1.0/tag")
+   /*@PostMapping(name = "/rest/v1.0/tag")
     public ResponseBean uploadTag(@RequestParam String tags,
                                   @RequestHeader String Authorization){
         User user = userService.findUserByUsername(JWTUtil.getUsername(Authorization));
@@ -105,6 +107,4 @@ public class RestUserController {
         }
         return new ResponseBean(201, "Successfully upload "  + " tags", null);
     }*/
-
-
 }

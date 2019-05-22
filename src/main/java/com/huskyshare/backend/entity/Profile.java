@@ -1,5 +1,6 @@
 package com.huskyshare.backend.entity;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -25,12 +26,24 @@ public class Profile {
     @Column(name = "profile_description")
     private String description;
 
+    @CreatedDate
+    @Column(name = "created_date")
+    private Date createdDate;
+
     @LastModifiedDate
     @Column(name = "last_modified_date")
     private Date date;
 
     @Column(name = "active_location")
     private String address;
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public Integer getUser_id() {
         return user_id;

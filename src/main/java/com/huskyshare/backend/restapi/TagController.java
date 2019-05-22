@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class ProfileController {
+public class TagController {
     /**
      * This controller dissolves all Requests related to user profile and tags
      * HTTP Status:  201  Successful operation
