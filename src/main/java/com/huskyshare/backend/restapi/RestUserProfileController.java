@@ -29,6 +29,7 @@ public class RestUserProfileController {
     //local directory to save pictures
 
     /**
+     * Store user's profile into DB and profile picture into local
      * @test NO TEST YET
      * @param file User's profile picture
      * @param description edited description

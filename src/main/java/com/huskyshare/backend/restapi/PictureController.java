@@ -41,7 +41,6 @@ public class PictureController {
             inputStream = new FileInputStream(file);
 
             byte[] data = new byte[(int) file.length()];
-            int length = inputStream.read(data);
             inputStream.close();
 
             response.setContentType("image/png");
