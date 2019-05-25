@@ -52,12 +52,12 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 将非法请求跳转到 /401
+     * 将非法请求跳转到 /403
      */
     private void response401(ServletRequest req, ServletResponse resp) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("error/401");
+            httpServletResponse.sendRedirect("error/403");
         } catch (IOException e) {
 
         }

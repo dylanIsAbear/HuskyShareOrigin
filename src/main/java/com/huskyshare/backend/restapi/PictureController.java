@@ -17,6 +17,12 @@ public class PictureController {
     @Autowired
     UserService userService;
 
+    /**
+     * 获取用户头像
+     * @param Authorization
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/rest/v1.0/picture", method = RequestMethod.GET)
     @RequiresAuthentication
     @RequiresRoles("USER")

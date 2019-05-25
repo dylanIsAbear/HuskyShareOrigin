@@ -74,9 +74,19 @@ public class EmailHandler {
 
     public boolean compareCode(String address, String code){ return validService.findCodebyEmail(address.toLowerCase()).equals(code);}
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public EmailHandler getEmailHandler(){ return new EmailHandler();}
 
+    /**
+     *
+     * @param address
+     * @return
+     * @throws Exception
+     */
     public String sendCode(String address) throws Exception {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -121,7 +131,7 @@ public class EmailHandler {
     }
 
     public void sendVerifiedEmail(String name){
-        String content = "Congratulations!\n You can free buy & share in huskyshare.com now! OwO";
+        String content = "Congratulations!\n You can FREELY buy & share in huskyshare.com now! OwO";
     }
 
 }

@@ -82,6 +82,11 @@ public class RestUserProfileController {
         return new ResponseBean(401, "Upload profile failed", null);
     }
 
+    /**
+     * 获取用户profile信息, 不包括头像
+     * @param Authorization
+     * @return  profile的bean, 前端需要向'/rest/{VERSION}/picture'发送GET请求获取头像
+     */
     @RequestMapping(value = "/rest/v1.0/profile", method = RequestMethod.GET)
     @RequiresAuthentication
     @RequiresRoles("USER")

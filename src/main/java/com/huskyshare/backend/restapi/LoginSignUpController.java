@@ -1,7 +1,6 @@
 package com.huskyshare.backend.restapi;
 
 import com.huskyshare.backend.entity.User;
-import com.huskyshare.backend.exception.UnauthorizedException;
 import com.huskyshare.backend.json_entity.ResponseBean;
 import com.huskyshare.backend.service.UserService;
 import com.huskyshare.backend.utils.EmailHandler;
@@ -26,6 +25,13 @@ public class LoginSignUpController {
     @Autowired
     EmailHandler emailHandler;
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return  401    Login fail
+     *          201    Login Successfully ,  data   JWT Token
+     */
     @RequestMapping(value = "/rest/v1.0/login", method = RequestMethod.POST)
     public ResponseBean login(@RequestParam("username") String username,
                               @RequestParam("password") String password){
@@ -42,12 +48,20 @@ public class LoginSignUpController {
         }
     }
 
+    /**
+     * Tester for authentication
+     * @return
+     */
     @GetMapping(value = "/rest/v1.0/testauth")
     @RequiresAuthentication
     public ResponseBean response(){
         return new ResponseBean(200, "You are authenticated", null);
     }
 
+    /**
+     * Tester for ROLE
+     * @return
+     */
     @GetMapping(value = "/rest/v1.0/testrole")
     @RequiresAuthentication
     @RequiresRoles("USER")
@@ -55,12 +69,27 @@ public class LoginSignUpController {
         return new ResponseBean(200, "You are visiting require_role", null);
     }
 
-    @RequestMapping(path = "/error/401")
+    /**
+     * 403 unauthorized error page
+     * @return
+     */
+    @RequestMapping(path = "/error/403")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseBean unauthorized() {
         return new ResponseBean(401, "Unauthorized", null);
     }
 
+    /**
+     * Store unconfirmed user and send code via e-mail
+     * @param username
+     * @param email
+     * @param password
+     * @param first
+     * @param last
+     * @return     402      Duplicate Email
+     *             403      Duplicate Username
+     *             201      Sign up successfully
+     */
     @PostMapping(value = "/rest/v1.0/signup")
     public ResponseBean signup(@RequestParam String username,
                                @RequestParam String email,
@@ -87,6 +116,13 @@ public class LoginSignUpController {
         return new ResponseBean(201, "Sign up successfully!", null);
     }
 
+    /**
+     * Verify email validated code
+     * @param email
+     * @param code
+     * @return      201     Verify successfully
+     *              401     Verify failed
+     */
     @PostMapping(value = "/rest/v1.0/verify")
     public ResponseBean verifyCode(@RequestParam String email,
                                    @RequestParam String code){
