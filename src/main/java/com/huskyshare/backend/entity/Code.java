@@ -3,7 +3,7 @@ package com.huskyshare.backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_code")
+@Table(name = "validation_code")
 public class Code {
 
     @Id

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TagDao extends JpaRepository<Tag, Long> {
-    @Query("select t from Tag t where t.uid is ?1")
+    @Query("select t from Tag t where t.uid = ?1")
     List<Tag> findTagsByUid(int uid);
 }

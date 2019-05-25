@@ -4,10 +4,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "tb_user")
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable{
    // 编号
@@ -53,7 +54,18 @@ public class User implements Serializable{
    @Column(name = "profile_id")
    private Integer profile;
 
-   public Integer getProfile() {
+   @Column(name = "created_time")
+   private Timestamp createTime;
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getProfile() {
       return profile;
    }
 

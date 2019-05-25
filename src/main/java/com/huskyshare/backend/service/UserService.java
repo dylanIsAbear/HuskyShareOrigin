@@ -8,6 +8,7 @@ import com.huskyshare.backend.entity.Tag;
 import com.huskyshare.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,36 +21,13 @@ public class UserService {
     @Autowired
     private TagDao tagDao;
 
-    public String register(User user) {
-        if (userDao.findByEmail(user.getEmail()) == null) {
-            if (userDao.findByUsername(user.getUsername()) == null) {
-                user.setConfirmed(false);
-                userDao.save(user);
-                return "SUCCESS";
-            }
-            return "DUPLICATE_USERNAME";
-        }
-        return "DUPLICATE_EMAIL";
-    }
-
+    @Transactional
     public void save(User user){
         userDao.save(user);
     }
 
     public List<User> findAll() {
         return userDao.findAll();
-    }
-
-    public String login(User user) {
-        if (user.getEmail() != null) {
-            User userInDB = userDao.findByEmail(user.getEmail());
-            if(userInDB==null)
-                return "ERROR_NO_USER";
-            if(!userInDB.getPassword().equals(user.getPassword()))
-                return "ERROR_INCORRECT_PASS";
-            return "SUCCESS";
-        }
-        return "ERROR_INVALID";
     }
 
     public User findUserByUsername(String username){ return userDao.findByUsername(username);}
@@ -60,8 +38,10 @@ public class UserService {
         return userDao.findByEmail(email);
     }
 
+    @Transactional
     public Profile saveProfile(Profile profile){ return profileDao.save(profile); }
 
+    @Transactional
     public Tag saveTag(Tag tag){
         return tagDao.save(tag);
     }
