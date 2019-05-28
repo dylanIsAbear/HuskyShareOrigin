@@ -60,6 +60,20 @@ public class Product {
     @Column(name = "product_buyer_id")
     private Integer consumerId;
 
+    @Column(name = "product_picture_url")
+    private Integer pictureId;
+
+
+    private String catagory;
+
+    public Integer getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Integer pictureId) {
+        this.pictureId = pictureId;
+    }
+
     public Integer getConsumerId() {
         return consumerId;
     }

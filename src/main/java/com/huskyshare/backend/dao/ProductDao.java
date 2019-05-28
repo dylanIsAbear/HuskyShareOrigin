@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface ProductDao extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.sellerId = ?1")
-    Product findByUid(Integer uid);
+    List<Product> findByUid(Integer uid);
 
     @Query("select p from Product p where p.consumerId = ?1")
-    Product findByBuyerId(Integer uid);
+    List<Product> findByBuyerId(Integer uid);
 
     @Query("select p from Product p where p.title like %?1%")
     List<Product> searchByTitle(String key);

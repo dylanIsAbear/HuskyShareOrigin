@@ -7,6 +7,8 @@ import com.huskyshare.backend.utils.EmailHandler;
 import com.huskyshare.backend.utils.JWTUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ public class LoginSignUpController {
      * 之后用户访问每一个需要权限的网址请求必须在header中添加Authorization字段，例如Authorization: token，token为密钥。
      * 后台会进行token的校验，如果有误会直接返回401
      */
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     UserService userService;
@@ -35,6 +39,7 @@ public class LoginSignUpController {
     @RequestMapping(value = "/rest/v1.0/login", method = RequestMethod.POST)
     public ResponseBean login(@RequestParam("username") String username,
                               @RequestParam("password") String password){
+        logger.info("login INVOKE: username: " + username);
         User user = userService.findUserByUsername(username);
         if (user == null){
             user = userService.findUserByEmail(username);
