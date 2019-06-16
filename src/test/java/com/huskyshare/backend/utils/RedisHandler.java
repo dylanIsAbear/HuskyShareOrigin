@@ -17,14 +17,26 @@ public class RedisHandler {
     private static RedisHandler handler = new RedisHandler();
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
+
+
+    @Test
+    public void stringTest(){
+        stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.opsForValue().set("1", "2");
+        System.out.println(stringRedisTemplate.opsForValue().get("1"));
+    }
 
     public void store(String key, String value){
-        redisTemplate.opsForValue().set(key, value);
+        //stringRedisTemplate.opsForValue().set(key, value);
+        RedisSerializer redisSerializer =new StringRedisSerializer();
+        stringRedisTemplate.setKeySerializer(redisSerializer);
+        //ValueOperations<String,String> vo = redisTemplate.opsForValue();
+        //vo.set(key, value);
     }
 
     public String get(String key){
-        return redisTemplate.opsForValue().get(key);
+        return "";
     }
 
     @Bean
