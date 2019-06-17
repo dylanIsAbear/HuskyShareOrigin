@@ -2,12 +2,14 @@ package com.huskyshare.backend.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_profile")
+@EntityListeners(AuditingEntityListener.class)
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

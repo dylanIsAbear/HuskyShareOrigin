@@ -1,9 +1,11 @@
 package com.huskyshare.backend.entity;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 
@@ -55,13 +57,14 @@ public class User implements Serializable{
    private Integer profile;
 
    @Column(name = "created_time")
-   private Timestamp createTime;
+   @CreatedDate
+   private Date createTime;
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
