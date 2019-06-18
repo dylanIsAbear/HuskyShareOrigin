@@ -1,7 +1,17 @@
 package com.huskyshare.backend.entity;
 
+import com.huskyshare.backend.entity.types.TypeEnum;
+
 import javax.persistence.*;
 
+/**
+ * Tag type: 1  Wish
+ *           2  Product
+ *           3  Post
+ *           4  Emotion
+ * SQL: select t from T t where t.type is ?1 and t.content is ?2
+ *      select t from T t where t.type is ?1 and t.uid is ?2 and t.content=?3
+ */
 @Entity
 @Table(name = "user_tags")
 public class Tag {
@@ -11,21 +21,19 @@ public class Tag {
     private Integer id;
 
     @Column(name = "user_id")
-    private Integer uid;
+    private Integer uid;    //ID that used this tag
 
     @Column(name = "tag_content")
     private String content;
 
     @Column(name = "tag_type")
-    private Integer type;
+    private TypeEnum type;
 
-    public Integer getType() {
+    public TypeEnum getType() {
         return type;
     }
 
-
-
-    public void setType(Integer type) {
+    public void setType(TypeEnum type) {
         this.type = type;
     }
 

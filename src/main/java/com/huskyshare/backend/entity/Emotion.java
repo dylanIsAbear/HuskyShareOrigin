@@ -29,8 +29,8 @@ public class Emotion {
     @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<User> subscribedUser; //Users that will receive this emotion
 
-//    @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-//    private List<Tag> keywords;
+//  @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+//  private List<Tag> keywords;
 
     @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<Picture> pictures;
