@@ -9,7 +9,7 @@ import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "user_emotion")
+@Table(name = "emotion")
 public class Emotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,18 @@ public class Emotion {
     private List<Picture> pictures;
 
     @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<Reply> replyList;
+    private List<EmotionReply> replyList;
+
+    @Column(name = "deleted")
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public User getUser() {
         return user;
@@ -94,11 +105,11 @@ public class Emotion {
         this.pictures = pictures;
     }
 
-    public List<Reply> getReplyList() {
+    public List<EmotionReply> getReplyList() {
         return replyList;
     }
 
-    public void setReplyList(List<Reply> replyList) {
+    public void setReplyList(List<EmotionReply> replyList) {
         this.replyList = replyList;
     }
 }

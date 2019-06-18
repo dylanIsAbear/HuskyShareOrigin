@@ -1,5 +1,6 @@
 package com.huskyshare.backend.entity;
 
+import com.huskyshare.backend.entity.types.RequestStatus;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,7 +26,8 @@ public class FriendRequest {
     private Long to;
 
     @Column(name = "status")
-    private Integer status; //Request's status
+    @Enumerated(EnumType.ORDINAL)
+    private RequestStatus status; //Request's status
 
     @CreationTimestamp
     @Column(name = "create_time")
@@ -70,11 +72,11 @@ public class FriendRequest {
         this.to = to;
     }
 
-    public Integer getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
     }
 

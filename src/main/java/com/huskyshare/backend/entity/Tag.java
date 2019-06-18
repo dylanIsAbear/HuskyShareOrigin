@@ -27,6 +27,7 @@ public class Tag {
     private String content;
 
     @Column(name = "tag_type")
+    @Enumerated(EnumType.ORDINAL)
     private TypeEnum type;
 
     public TypeEnum getType() {

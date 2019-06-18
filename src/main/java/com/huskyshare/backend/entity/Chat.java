@@ -19,7 +19,7 @@ public class Chat {
     private String content;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "chat_id")
+    @JoinColumn(name = "history_id")
     private ChatHistory chatHistory;
 
     @CreationTimestamp

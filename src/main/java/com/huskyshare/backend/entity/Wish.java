@@ -30,7 +30,7 @@ public class Wish {
     private User user;
 
     @OneToMany(mappedBy = "wish", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<Reply> replys; //OneToMany
+    private List<WishReply> replys; //OneToMany
 
     @Column(name = "wish_status")
     private Integer status;
@@ -41,6 +41,16 @@ public class Wish {
     @OneToMany(mappedBy = "wish", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<Picture> pictures;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 //    @ManyToMany
 //    private List<Tag> tags;
 
@@ -84,11 +94,11 @@ public class Wish {
         this.user = user;
     }
 
-    public List<Reply> getReplys() {
+    public List<WishReply> getReplys() {
         return replys;
     }
 
-    public void setReplys(List<Reply> replys) {
+    public void setReplys(List<WishReply> replys) {
         this.replys = replys;
     }
 

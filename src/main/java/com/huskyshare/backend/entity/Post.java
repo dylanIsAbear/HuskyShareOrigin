@@ -3,6 +3,7 @@ package com.huskyshare.backend.entity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -15,6 +16,17 @@ public class Post {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
     private User user;
+
+    @OneToMany(mappedBy = "post",  cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    private List<PostReply> replies;
+
+    public List<PostReply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<PostReply> replies) {
+        this.replies = replies;
+    }
 
     public Integer getId() {
         return id;

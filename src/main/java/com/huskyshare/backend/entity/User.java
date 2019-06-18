@@ -17,7 +17,7 @@ public class User implements Serializable{
    // 编号
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "user_id")
+   @Column(name = "id")
    private Integer id;
 
    // 用户名
@@ -25,23 +25,23 @@ public class User implements Serializable{
    private String username;
 
    // 密码
-   @Column(name = "user_password", nullable = false, length = 50)
+   @Column(name = "password", nullable = false, length = 50)
    private String password;
 
    // email
-   @Column(name = "user_email", nullable = false, length = 50)
+   @Column(name = "email", nullable = false, length = 50)
    private String email;
 
    // First Name
-   @Column(name = "user_first_name", nullable = false, length = 50)
+   @Column(name = "first_name", nullable = false, length = 50)
    private String firstName;
 
    // Last Name
-   @Column(name = "user_last_name", nullable = false, length = 50)
+   @Column(name = "last_name", nullable = false, length = 50)
    private String lastName;
 
    // Mobile
-   @Column(name = "user_mobile", length = 16)
+   @Column(name = "mobile", length = 16)
    private String mobile;
 
    // If user has confirmed email
