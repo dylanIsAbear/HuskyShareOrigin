@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "request_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "from_id")
@@ -34,6 +34,17 @@ public class FriendRequest {
     @Column(name = "request_content", length = 50)
     @Nullable
     private String content;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

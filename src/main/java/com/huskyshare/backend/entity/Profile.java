@@ -13,7 +13,7 @@ import java.util.Date;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer profile_id;
 
     @Column(name = "user_id")

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tag_id")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "user_id")
@@ -15,6 +15,19 @@ public class Tag {
 
     @Column(name = "tag_content")
     private String content;
+
+    @Column(name = "tag_type")
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;

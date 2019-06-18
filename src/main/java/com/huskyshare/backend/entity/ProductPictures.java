@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class ProductPictures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "picture_id")
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "picture_type")

@@ -14,8 +14,14 @@ import java.sql.Timestamp;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "is_anonymous")
+    private boolean anonymous;
+
+    @Column(name = "temp_name")
+    private String tempName;
 
     @CreationTimestamp
     private Timestamp createTime;
@@ -65,15 +71,42 @@ public class Product {
     @Column(name = "product_picture_url")
     private Integer pictureId;
 
-    @Column(name = "priducy_catagory")
-    private String catagory;
+    @Column(name = "priducy_category")
+    private String category;
 
-    public String getCatagory() {
-        return catagory;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    private User user;
+
+    public boolean isAnonymous() {
+        return anonymous;
     }
 
-    public void setCatagory(String catagory) {
-        this.catagory = catagory;
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
+    }
+
+    public String getTempName() {
+        return tempName;
+    }
+
+    public void setTempName(String tempName) {
+        this.tempName = tempName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String catagory) {
+        this.category = catagory;
     }
 
     public Integer getPictureId() {

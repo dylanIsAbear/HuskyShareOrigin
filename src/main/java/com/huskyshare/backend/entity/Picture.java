@@ -4,10 +4,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "reply")
-public class Reply {
+@Table(name = "pictures")
+@EntityListeners(AuditingEntityListener.class)
+public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
