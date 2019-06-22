@@ -5,7 +5,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -31,12 +30,34 @@ public class WishReply {
     @Column(name = "floor")
     private Integer floor;
 
+    @Column(name = "voteup")
+    private Integer vote;
+
     @CreationTimestamp
     @Column(name = "created_time")
     private Timestamp createdTime;
 
     @Column(name = "deleted")
     private boolean deleted;
+
+    @Column(name = "is_parent")
+    private boolean isParentReply;
+
+    public Integer getVote() {
+        return vote;
+    }
+
+    public void setVote(Integer vote) {
+        this.vote = vote;
+    }
+
+    public boolean isParent() {
+        return isParentReply;
+    }
+
+    public void setIsParentReply(boolean parent) {
+        isParentReply = parent;
+    }
 
     public Long getId() {
         return id;

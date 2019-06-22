@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Wish status :   0  FINISHED
+ *                 1  ON
+ */
 @Entity
 @Table(name = "wish")
 @EntityListeners(AuditingEntityListener.class)
@@ -22,6 +26,12 @@ public class Wish {
     @Column(name = "wish_content", length = 350)
     private String wishContent;
 
+    @Column(name = "expire_date")
+    private Date expiredDate;
+
+    @OneToOne(mappedBy = "wish",  cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private Address address;
+
     @CreatedDate
     @Column(name = "post_time")
     private Date createdTime;
@@ -35,14 +45,27 @@ public class Wish {
     @Column(name = "wish_status")
     private Integer status;
 
-    @Column(name = "wish_address")
-    private String address;
-
     @OneToMany(mappedBy = "wish", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<Picture> pictures;
 
     @Column(name = "deleted")
     private boolean deleted;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Date getExpiredDate() {
+        return expiredDate;
+    }
+
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
+    }
 
     public boolean isDeleted() {
         return deleted;
@@ -108,14 +131,6 @@ public class Wish {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public List<Picture> getPictures() {
