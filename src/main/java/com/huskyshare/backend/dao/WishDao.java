@@ -17,7 +17,7 @@ public interface WishDao extends JpaRepository<Wish, Long> {
     List<Wish> findAllWishByUser(User user);
 
     @Query("select w from Wish w where w.deleted = false AND w.user =?1")
-    List<Wish> findAllAvailableWIsh(User user);
+    List<Wish> findAllAvailableWish(User user);
 
     @Query("select w from Wish w where w.deleted = true AND w.user=?1")
     List<Wish> findAllDeletedWish(User user);
