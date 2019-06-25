@@ -20,7 +20,7 @@ public interface WishDao extends JpaRepository<Wish, Long> {
     List<Wish> findAllWishByUid(Integer uid);
 
     @Query("select w from Wish w where w.deleted = false AND w.user =?1")
-    List<Wish> findAllAvailableWIsh(User user);
+    List<Wish> findAllAvailableWish(User user);
 
     @Query(nativeQuery = true, value = "select * from wish where uid = ?1 limit ?2 , ?3")
     List<Wish> findAvailableWishByPageAndUid(Integer uid, Integer offset, Integer limit);

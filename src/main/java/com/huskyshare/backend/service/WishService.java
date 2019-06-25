@@ -34,7 +34,7 @@ public class WishService {
     }
 
     public List<Wish> findAllAvailableByUser(User user){
-        return wishDao.findAllAvailableWIsh(user);
+        return wishDao.findAllAvailableWish(user);
     }
 
 }
