@@ -1,7 +1,7 @@
 package com.huskyshare.backend.service;
 
 import com.huskyshare.backend.dao.EmotionDao;
-import com.huskyshare.backend.entity.EmotionReply;
+import com.huskyshare.backend.dao.EmotionReplyDao;
 import com.huskyshare.backend.entity.Emotion;
 import com.huskyshare.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ public class EmotionService {
     @Autowired
     EmotionDao emotionDao;
 
-    /*
+
     @Autowired
-    EmotionReply emotionReply;
-    */
+    EmotionReplyDao emotionReplyDao;
+
 
     public void save(Emotion emotion){
         emotionDao.save(emotion);
