@@ -1,19 +1,23 @@
 package com.huskyshare.backend.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+@DynamicInsert
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "emotion")
 public class Emotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "emotion_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "emotion_content", length = 500, nullable = false)
@@ -26,8 +30,8 @@ public class Emotion {
     @Column(name = "create_time")
     private Timestamp createdTime;
 
-    @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<User> subscribedUser; //Users that will receive this emotion
+    @Column(name = "subscribed_user")
+    private String subscribedUser; //Users that will receive this emotion
 
 //  @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
 //  private List<Tag> keywords;
@@ -81,11 +85,11 @@ public class Emotion {
         this.createdTime = createdTime;
     }
 
-    public List<User> getSubscribedUser() {
+    public String getSubscribedUser() {
         return subscribedUser;
     }
 
-    public void setSubscribedUser(List<User> subscribedUser) {
+    public void setSubscribedUser(String subscribedUser) {
         this.subscribedUser = subscribedUser;
     }
 

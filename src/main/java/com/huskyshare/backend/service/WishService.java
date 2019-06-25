@@ -26,7 +26,11 @@ public class WishService {
     }
 
     public List<Wish>  findAllByUser (User user){
-        return wishDao.findAllWishByUser(user);
+        return wishDao.findAllWishByUid(user.getId());
+    }
+
+    public List<Wish> findAllByUserAndLimit (User user, Integer offset, Integer limit){
+        return wishDao.findAvailableWishByPageAndUid(user.getId(), offset, limit);
     }
 
     public List<Wish> findAllAvailableByUser(User user){

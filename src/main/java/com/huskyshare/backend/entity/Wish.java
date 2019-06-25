@@ -4,7 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +19,9 @@ public class Wish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "uid")
+    private Integer uid;
 
     @Column(name = "wish_title", length = 50)
     private String wishTitle;
@@ -50,6 +53,14 @@ public class Wish {
 
     @Column(name = "deleted")
     private boolean deleted;
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
 
     public Address getAddress() {
         return address;

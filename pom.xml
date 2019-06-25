@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>backend</name>
-    <description>Using SpringBoot</description>
+    <description>Spring based, WebSocket, NGINX</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

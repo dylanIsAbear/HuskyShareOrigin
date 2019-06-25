@@ -10,6 +10,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 @Scope(scopeName = "singleton")
 public class RedisHandler {
@@ -20,7 +22,7 @@ public class RedisHandler {
     private StringRedisTemplate redisTemplate;
 
     public void store(String key, String value){
-        redisTemplate.opsForValue().set(key, value);
+        redisTemplate.opsForValue().set(key, value, 60*10, TimeUnit.SECONDS);
     }
 
     public String get(String key){

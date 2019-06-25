@@ -1,22 +1,28 @@
 package com.huskyshare.backend.entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable{
    // 编号
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id")
    private Integer id;
 
@@ -27,6 +33,10 @@ public class User implements Serializable{
    // 密码
    @Column(name = "password", nullable = false, length = 50)
    private String password;
+
+   //Sex, 0 OTHER, 1 MALE, 2 FEMALE
+   @Column(name = "sex", nullable = false)
+   private Integer sex;
 
    // email
    @Column(name = "email", nullable = false, length = 50)
@@ -61,11 +71,8 @@ public class User implements Serializable{
    @CreatedDate
    private Date createTime;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    private Emotion emotion;
-
    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-   private List<Wish> wishList;
+   private List<Wish> wishList = new ArrayList<>();
 
    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
    private List<Product> productList;
@@ -80,20 +87,22 @@ public class User implements Serializable{
    private List<Order> orderList;
 
    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   @Column(columnDefinition = "tinyint default 0", name = "emotion_list")
    private List<Emotion> emotionList;
 
    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
    private List<Post> postList;
 
    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   @Nullable
    private List<MessageList> messageList; //chat list
 
-    public Emotion getEmotion() {
-        return emotion;
+    public Integer getSex() {
+        return sex;
     }
 
-    public void setEmotion(Emotion emotion) {
-        this.emotion = emotion;
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 
     public List<MessageList> getMessageList() {

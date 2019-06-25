@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private TagDao tagDao;
 
-    @Transactional
+
     public void save(User user){
         userDao.save(user);
     }
