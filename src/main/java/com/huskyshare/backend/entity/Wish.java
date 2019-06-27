@@ -21,7 +21,7 @@ public class Wish {
     private Long id;
 
     @Column(name = "uid")
-    private Integer uid;
+    private Long uid;
 
     @Column(name = "wish_title", length = 50)
     private String wishTitle;
@@ -54,11 +54,11 @@ public class Wish {
     @Column(name = "deleted")
     private boolean deleted;
 
-    public Integer getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

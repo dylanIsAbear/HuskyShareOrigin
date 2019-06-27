@@ -32,7 +32,7 @@ public class UserService {
 
     public User findUserByUsername(String username){ return userDao.findByUsername(username);}
 
-    public User findUserById(Long id){ return userDao.findById(id.intValue());}
+    public User findUserById(Long id){ return userDao.findById((id.intValue()));}
 
     public User findUserByEmail(String email){
         return userDao.findByEmail(email);
@@ -46,11 +46,11 @@ public class UserService {
         return tagDao.save(tag);
     }
 
-    public List<Tag> findTags(int uid){ return tagDao.findTagsByUid(uid); }
+    public List<Tag> findTags(Long uid){ return tagDao.findTagsByUid(uid); }
 
-    public Profile findProfile(int id){return profileDao.findByProfile_id(id);}
+    public Profile findProfile(Long id){return profileDao.findByProfile_id(id);}
 
-    public Profile findProfileByUid(int id){return profileDao.findByUid(id);}
+    public Profile findProfileByUid(Long id){return profileDao.findByUid(id);}
 
 }
 

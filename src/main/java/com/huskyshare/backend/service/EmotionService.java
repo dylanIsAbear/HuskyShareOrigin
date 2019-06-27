@@ -14,7 +14,6 @@ public class EmotionService {
     @Autowired
     EmotionDao emotionDao;
 
-
     @Autowired
     EmotionReplyDao emotionReplyDao;
 

@@ -5,10 +5,10 @@ import com.huskyshare.backend.entity.User;
 import java.util.List;
 
 public class ResponseUserInfo {
-    private Integer id;
+    private Long id;
     private String username;
     private boolean confirmed;
-    private Integer profileId;
+    private Long profileId;
 
     public ResponseUserInfo(User user){
         id = user.getId();
@@ -17,11 +17,11 @@ public class ResponseUserInfo {
         profileId = user.getProfile();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,11 +41,11 @@ public class ResponseUserInfo {
         this.confirmed = confirmed;
     }
 
-    public Integer getProfileId() {
+    public Long getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Integer profileId) {
+    public void setProfileId(Long profileId) {
         this.profileId = profileId;
     }
 

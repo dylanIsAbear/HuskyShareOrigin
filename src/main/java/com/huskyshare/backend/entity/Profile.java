@@ -14,10 +14,10 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer profile_id;
+    private Long profile_id;
 
     @Column(name = "user_id")
-    private Integer user_id;
+    private Long user_id;
 
     @Column(name = "profile_pic")
     private String picture;
@@ -47,11 +47,11 @@ public class Profile {
         this.createdDate = createdDate;
     }
 
-    public Integer getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
@@ -63,11 +63,11 @@ public class Profile {
         this.type = type;
     }
 
-    public Integer getProfile_id() {
+    public Long getProfile_id() {
         return profile_id;
     }
 
-    public void setProfile_id(Integer profile_id) {
+    public void setProfile_id(Long profile_id) {
         this.profile_id = profile_id;
     }
 

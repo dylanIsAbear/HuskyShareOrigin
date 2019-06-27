@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TagDao extends JpaRepository<Tag, Long> {
     @Query("select t from Tag t where t.uid = ?1")
-    List<Tag> findTagsByUid(int uid);
+    List<Tag> findTagsByUid(Long uid);
 }

@@ -18,6 +18,7 @@ public class Emotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+
     private Long id;
 
     @Column(name = "emotion_content", length = 500, nullable = false)
