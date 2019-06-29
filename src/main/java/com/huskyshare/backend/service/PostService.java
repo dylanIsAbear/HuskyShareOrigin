@@ -22,10 +22,6 @@ public class PostService {
         postDao.save(Post);
     }
 
-    public void addVote(Post post, Vote vote) {
-        post.getVotes().add(vote);
-    }
-
     public void deleteVote(Post post, Vote vote) {post.getVotes().remove(vote);}
 
     public Post findById(Long id){

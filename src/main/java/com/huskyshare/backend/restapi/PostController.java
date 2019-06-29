@@ -35,6 +35,7 @@ public class PostController {
         User current = userService.findUserByUsername(JWTUtil.getUsername(Authorization));
         response.setDate(new Date());
         Post post = new Post();
+        post.setDeleted(false);
         post.setContent(content);
         post.setUser(current);
         post.setId(current.getId());
@@ -45,6 +46,20 @@ public class PostController {
     }
 
 
+    @RequestMapping(method = RequestMethod.POST, value = "/rest/v1.0/delete_post")
+    @RequiresRoles("USER")
+    @RequiresAuthentication
+    public ResponseBean deletePost(@RequestParam Long post_id, @RequestHeader String Authorization){
+        ResponseBean response = new ResponseBean();
+        User current = userService.findUserByUsername(JWTUtil.getUsername(Authorization));
+        response.setDate(new Date());
+        Post post = postService.findById(post_id);
+        post.setDeleted(true);
+        postService.save(post);
+        response.setStatus(HttpStatus.SC_OK);
+        response.setMsg("delete post successfully!");
+        return response;
+    }
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/rest/v1.0/like_post")
@@ -58,7 +73,7 @@ public class PostController {
         Post post = postService.findById(post_id);
         vote.setUserId(current.getId());
         vote.setPost(post);
-        postService.addVote(post, vote);
+        post.getVotes().add(vote);
         voteService.save(vote);
         response.setStatus(HttpStatus.SC_OK);
         response.setMsg("like successfully!");
@@ -79,4 +94,6 @@ public class PostController {
         response.setMsg("unlike successfully!");
         return response;
     }
+
+
 }

@@ -16,4 +16,7 @@ public interface PostDao extends JpaRepository<Post, Long> {
     @Query("select p from Post p where p.user = ?1")
     List<Post> findAllPostByUser(User user);
 
+    @Query("select p from Post p where p.deleted = false AND p.user =?1")
+    List<Post> findAllAvailablePost(User user);
+
 }
