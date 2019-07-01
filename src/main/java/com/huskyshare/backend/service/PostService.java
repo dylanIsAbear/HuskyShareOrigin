@@ -1,7 +1,6 @@
 package com.huskyshare.backend.service;
 
 import com.huskyshare.backend.dao.PostDao;
-import com.huskyshare.backend.dao.PostReplyDao;
 import com.huskyshare.backend.entity.User;
 import com.huskyshare.backend.entity.Post;
 import com.huskyshare.backend.entity.Vote;
@@ -14,9 +13,6 @@ import java.util.List;
 public class PostService {
     @Autowired
     PostDao postDao;
-
-    @Autowired
-    PostReplyDao postReplyDao;
 
     public void save(Post Post){
         postDao.save(Post);

@@ -1,8 +1,10 @@
 package com.huskyshare.backend.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -17,8 +19,11 @@ public class Post {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
     private User user;
 
-    @OneToMany(mappedBy = "post",  cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<PostReply> replies;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    private List<Post> replies;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    private Post parentComment;
 
     @Column(name = "post_content", length = 350)
     private String content;
@@ -28,6 +33,56 @@ public class Post {
 
     @Column(name = "deleted")
     private boolean deleted;
+
+    @Column(name = "to_user")
+    private Long to;
+
+    @Column(name = "floor")
+    private Integer floor;
+
+    @CreationTimestamp
+    @Column(name = "created_time")
+    private Timestamp createdTime;
+
+    public void setReplies(List<Post> replies) {
+        this.replies = replies;
+    }
+
+    public Post getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Post parentComment) {
+        this.parentComment = parentComment;
+    }
+
+    public Long getTo() {
+        return to;
+    }
+
+    public void setTo(Long to) {
+        this.to = to;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
+    }
+
+    public Timestamp getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public List<Post> getReplies() {
+        return replies;
+    }
 
     public boolean isDeleted() {
         return deleted;
@@ -51,14 +106,6 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public List<PostReply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<PostReply> replies) {
-        this.replies = replies;
     }
 
     public Long getId() {
