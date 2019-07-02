@@ -18,10 +18,10 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "user_id")
-    private Integer uid;    //ID that used this tag
+    private Long uid;    //ID that used this tag
 
     @Column(name = "tag_content")
     private String content;
@@ -38,19 +38,19 @@ public class Tag {
         this.type = type;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

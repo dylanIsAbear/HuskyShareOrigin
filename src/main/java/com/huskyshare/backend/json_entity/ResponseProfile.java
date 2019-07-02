@@ -3,7 +3,7 @@ package com.huskyshare.backend.json_entity;
 import com.huskyshare.backend.entity.Profile;
 
 public class ResponseProfile {
-    private Integer profile_id;
+    private Long profile_id;
 
     private String picture;
 
@@ -18,11 +18,11 @@ public class ResponseProfile {
         this.description = profile.getDescription();
     }
 
-    public Integer getProfile_id() {
+    public Long getProfile_id() {
         return profile_id;
     }
 
-    public void setProfile_id(Integer profile_id) {
+    public void setProfile_id(Long profile_id) {
         this.profile_id = profile_id;
     }
 
