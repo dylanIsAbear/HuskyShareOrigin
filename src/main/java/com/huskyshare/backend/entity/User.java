@@ -24,7 +24,7 @@ public class User implements Serializable{
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id")
-   private Integer id;
+   private Long id;
 
    // 用户名
    @Column(updatable = false, name = "user_username", nullable = false, length = 50)
@@ -35,7 +35,7 @@ public class User implements Serializable{
    private String password;
 
    //Sex, 0 OTHER, 1 MALE, 2 FEMALE
-   @Column(name = "sex", nullable = false)
+   @Column(name = "sex", nullable = true)
    private Integer sex;
 
    // email
@@ -65,7 +65,7 @@ public class User implements Serializable{
    private String permission;
 
    @Column(name = "profile_id")
-   private Integer profile;
+   private Long profile;
 
    @Column(name = "created_time")
    @CreatedDate
@@ -177,11 +177,11 @@ public class User implements Serializable{
         this.createTime = createTime;
     }
 
-    public Integer getProfile() {
+    public Long getProfile() {
       return profile;
    }
 
-   public void setProfile(Integer profile) {
+   public void setProfile(Long profile) {
       this.profile = profile;
    }
 
@@ -243,11 +243,11 @@ public class User implements Serializable{
       this.lastName = lastName;
    }
 
-   public Integer getId() {
+   public Long getId() {
       return id;
    }
 
-   public void setId(Integer id) {
+   public void setId(Long id) {
       this.id = id;
    }
 

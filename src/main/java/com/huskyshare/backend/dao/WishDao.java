@@ -17,13 +17,13 @@ public interface WishDao extends JpaRepository<Wish, Long> {
     List<Wish> findAllWishByUser(User user);
 
     @Query("select w from Wish w where w.uid = ?1")
-    List<Wish> findAllWishByUid(Integer uid);
+    List<Wish> findAllWishByUid(Long uid);
 
     @Query("select w from Wish w where w.deleted = false AND w.user =?1")
     List<Wish> findAllAvailableWish(User user);
 
     @Query(nativeQuery = true, value = "select * from wish where uid = ?1 limit ?2 , ?3")
-    List<Wish> findAvailableWishByPageAndUid(Integer uid, Integer offset, Integer limit);
+    List<Wish> findAvailableWishByPageAndUid(Long uid, Integer offset, Integer limit);
 
     @Query("select w from Wish w where w.deleted = true AND w.user=?1")
     List<Wish> findAllDeletedWish(User user);

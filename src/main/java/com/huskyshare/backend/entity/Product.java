@@ -15,7 +15,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "is_anonymous")
     private boolean anonymous;
@@ -63,13 +63,13 @@ public class Product {
     private Date notAvailableUntil;
 
     @Column(name = "product_seller_id")
-    private Integer sellerId;
+    private Long sellerId;
 
     @Column(name = "product_buyer_id")
-    private Integer consumerId;
+    private Long consumerId;
 
     @Column(name = "product_picture_url")
-    private Integer pictureId;
+    private Long pictureId;
 
     @Column(name = "priducy_category")
     private String category;
@@ -109,36 +109,36 @@ public class Product {
         this.category = catagory;
     }
 
-    public Integer getPictureId() {
-        return pictureId;
-    }
-
-    public void setPictureId(Integer pictureId) {
-        this.pictureId = pictureId;
-    }
-
-    public Integer getConsumerId() {
-        return consumerId;
-    }
-
-    public void setConsumerId(Integer consumerId) {
-        this.consumerId = consumerId;
-    }
-
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Long getConsumerId() {
+        return consumerId;
+    }
+
+    public void setConsumerId(Long consumerId) {
+        this.consumerId = consumerId;
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Timestamp getCreateTime() {

@@ -18,7 +18,7 @@ public class MessageList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "to_user_id")
     private Long to;
@@ -29,11 +29,11 @@ public class MessageList {
     @OneToMany(mappedBy = "messageList", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<ChatHistory> chatHistory;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
