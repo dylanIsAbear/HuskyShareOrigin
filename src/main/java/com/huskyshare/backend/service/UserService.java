@@ -32,16 +32,14 @@ public class UserService {
 
     public User findUserByUsername(String username){ return userDao.findByUsername(username);}
 
-    public User findUserById(Long id){ return userDao.findById((id.intValue()));}
+    public User findUserById(Long id){ return userDao.findById(id).get();}
 
     public User findUserByEmail(String email){
         return userDao.findByEmail(email);
     }
 
-    @Transactional
     public Profile saveProfile(Profile profile){ return profileDao.save(profile); }
 
-    @Transactional
     public Tag saveTag(Tag tag){
         return tagDao.save(tag);
     }
