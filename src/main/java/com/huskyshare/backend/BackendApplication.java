@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@EnableConfigurationProperties(OssConfig.class)
+@EnableConfigurationProperties({OssConfig.class})
 public class BackendApplication {
 
    public static void main(String[] args) {
