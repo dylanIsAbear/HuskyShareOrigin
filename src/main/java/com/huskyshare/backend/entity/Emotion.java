@@ -38,9 +38,6 @@ public class Emotion {
 //  private List<Tag> keywords;
 
     @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<Picture> pictures;
-
-    @OneToMany(mappedBy = "emotion", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<EmotionReply> replyList;
 
     @Column(name = "deleted")
@@ -101,14 +98,6 @@ public class Emotion {
 //    public void setKeywords(List<Tag> keywords) {
 //        this.keywords = keywords;
 //    }
-
-    public List<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
-    }
 
     public List<EmotionReply> getReplyList() {
         return replyList;

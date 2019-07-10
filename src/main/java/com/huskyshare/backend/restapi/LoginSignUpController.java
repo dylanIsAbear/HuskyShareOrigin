@@ -129,7 +129,7 @@ public class LoginSignUpController {
     public ResponseBean getCode(@RequestParam String email){
         User user = userService.findUserByEmail(email.toLowerCase());
         if(user != null && !user.isConfirmed()){
-           if (redisHandler.get(email.toLowerCase()) != null) return new ResponseBean(402, "Duplicate code request", null);
+
            try {
                emailHandler.sendCode(email);
                return new ResponseBean(201, "Send code successfully", null);

@@ -13,18 +13,44 @@ public class Picture {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    private Wish wish;
+    @Column(name = "name")
+    private String filename;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    private Emotion emotion;
+    @Column(name = "host_id")
+    private Long host;
 
-    public Emotion getEmotion() {
-        return emotion;
+    /**
+     * type 0  Previous Profile Picture
+     *      1  Current Profile Picture
+     *      2  Product Picture
+     *      3  Wish Picture
+     *      4  Post Picture
+     */
+    @Column(name = "type")
+    private Integer type;
+
+    public Long getHost() {
+        return host;
     }
 
-    public void setEmotion(Emotion emotion) {
-        this.emotion = emotion;
+    public void setHost(Long host) {
+        this.host = host;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Long getId() {
@@ -35,11 +61,4 @@ public class Picture {
         this.id = id;
     }
 
-    public Wish getWish() {
-        return wish;
-    }
-
-    public void setWish(Wish wish) {
-        this.wish = wish;
-    }
 }

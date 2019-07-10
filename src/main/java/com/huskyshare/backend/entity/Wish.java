@@ -48,9 +48,6 @@ public class Wish {
     @Column(name = "wish_status")
     private Integer status;
 
-    @OneToMany(mappedBy = "wish", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    private List<Picture> pictures;
-
     @Column(name = "deleted")
     private boolean deleted;
 
@@ -142,14 +139,6 @@ public class Wish {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public List<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
     }
 
 }
