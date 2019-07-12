@@ -24,7 +24,7 @@ public class RestUserProfileController {
     @Autowired
     private EmailHandler emailHandler;
 
-    @Value("${huskyshare.resource.profile.dir}")
+    @Value("${huskyshare.resource.dir}")
     String uploadDir;
     //local directory to save pictures
 

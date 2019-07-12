@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class ProductPictures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "picture_id")
-    private Integer id;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "picture_type")
     private String type;
@@ -17,22 +17,22 @@ public class ProductPictures {
     private String url;
 
     @Column(name = "product_id")
-    private Integer pid;
+    private Long pid;
 
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getPid() {
+        return pid;
+    }
+
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     public String getType() {

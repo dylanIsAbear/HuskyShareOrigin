@@ -2,18 +2,26 @@ package com.huskyshare.backend.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "products")
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Integer id;
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "is_anonymous")
+    private boolean anonymous;
+
+    @Column(name = "temp_name")
+    private String tempName;
 
     @CreationTimestamp
     private Timestamp createTime;
@@ -55,55 +63,82 @@ public class Product {
     private Date notAvailableUntil;
 
     @Column(name = "product_seller_id")
-    private Integer sellerId;
+    private Long sellerId;
 
     @Column(name = "product_buyer_id")
-    private Integer consumerId;
+    private Long consumerId;
 
     @Column(name = "product_picture_url")
-    private Integer pictureId;
+    private Long pictureId;
 
-    @Column(name = "priducy_catagory")
-    private String catagory;
+    @Column(name = "priducy_category")
+    private String category;
 
-    public String getCatagory() {
-        return catagory;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    private User user;
+
+    public boolean isAnonymous() {
+        return anonymous;
     }
 
-    public void setCatagory(String catagory) {
-        this.catagory = catagory;
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
     }
 
-    public Integer getPictureId() {
-        return pictureId;
+    public String getTempName() {
+        return tempName;
     }
 
-    public void setPictureId(Integer pictureId) {
-        this.pictureId = pictureId;
+    public void setTempName(String tempName) {
+        this.tempName = tempName;
     }
 
-    public Integer getConsumerId() {
-        return consumerId;
+    public User getUser() {
+        return user;
     }
 
-    public void setConsumerId(Integer consumerId) {
-        this.consumerId = consumerId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getSellerId() {
-        return sellerId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setCategory(String catagory) {
+        this.category = catagory;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Long getConsumerId() {
+        return consumerId;
+    }
+
+    public void setConsumerId(Long consumerId) {
+        this.consumerId = consumerId;
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Timestamp getCreateTime() {

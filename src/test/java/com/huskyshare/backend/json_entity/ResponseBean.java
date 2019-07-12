@@ -8,6 +8,8 @@ public class ResponseBean {
     private Object data;
     private Date date;
 
+    public ResponseBean(){};
+
     public ResponseBean(int status, String msg, Object data){
         this.date=new Date();
         this.data=data;

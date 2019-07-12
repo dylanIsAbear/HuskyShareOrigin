@@ -21,7 +21,7 @@ public class TagController {
     UserService userService;
 
     /**
-     * Upload user's tags
+     * Upload user's tags, , is forbidden when uploading
      * @param tags User tags seperated by ',' i.e: tags=TA, TB, TC
      * @param Authorization Token
      * @return  201 if success

@@ -1,8 +1,5 @@
 package com.huskyshare.backend.utils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

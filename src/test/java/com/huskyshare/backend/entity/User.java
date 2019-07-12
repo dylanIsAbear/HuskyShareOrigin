@@ -1,44 +1,56 @@
 package com.huskyshare.backend.entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements Serializable{
+public class User implements Serializable {
    // 编号
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "user_id")
-   private Integer id;
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   @Column(name = "id")
+   private Long id;
 
    // 用户名
    @Column(updatable = false, name = "user_username", nullable = false, length = 50)
    private String username;
 
    // 密码
-   @Column(name = "user_password", nullable = false, length = 50)
+   @Column(name = "password", nullable = false, length = 50)
    private String password;
 
+   //Sex, 0 OTHER, 1 MALE, 2 FEMALE
+   @Column(name = "sex", nullable = true)
+   private Integer sex;
+
    // email
-   @Column(name = "user_email", nullable = false, length = 50)
+   @Column(name = "email", nullable = false, length = 50)
    private String email;
 
    // First Name
-   @Column(name = "user_first_name", nullable = false, length = 50)
+   @Column(name = "first_name", nullable = false, length = 50)
    private String firstName;
 
    // Last Name
-   @Column(name = "user_last_name", nullable = false, length = 50)
+   @Column(name = "last_name", nullable = false, length = 50)
    private String lastName;
 
    // Mobile
-   @Column(name = "user_mobile", length = 16)
+   @Column(name = "mobile", length = 16)
    private String mobile;
 
    // If user has confirmed email
@@ -52,24 +64,104 @@ public class User implements Serializable{
    private String permission;
 
    @Column(name = "profile_id")
-   private Integer profile;
+   private Long profile;
 
    @Column(name = "created_time")
-   private Timestamp createTime;
+   @CreatedDate
+   private Date createTime;
 
-    public Timestamp getCreateTime() {
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private List<Wish> wishList = new ArrayList<>();
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private List<Product> productList;
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private Set<Favorites> favorites;
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private List<FriendRequest> friendRequests;
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private List<Order> orderList;
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   @Column(columnDefinition = "tinyint default 0", name = "emotion_list")
+   private List<Emotion> emotionList;
+
+   @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+   private List<Post> postList;
+
+
+    public List<Wish> getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(List<Wish> wishList) {
+        this.wishList = wishList;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public Set<Favorites> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Favorites> favorites) {
+        this.favorites = favorites;
+    }
+
+    public List<FriendRequest> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public void setFriendRequests(List<FriendRequest> friendRequests) {
+        this.friendRequests = friendRequests;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public List<Emotion> getEmotionList() {
+        return emotionList;
+    }
+
+    public void setEmotionList(List<Emotion> emotionList) {
+        this.emotionList = emotionList;
+    }
+
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
+
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getProfile() {
+    public Long getProfile() {
       return profile;
    }
 
-   public void setProfile(Integer profile) {
+   public void setProfile(Long profile) {
       this.profile = profile;
    }
 
@@ -131,11 +223,11 @@ public class User implements Serializable{
       this.lastName = lastName;
    }
 
-   public Integer getId() {
+   public Long getId() {
       return id;
    }
 
-   public void setId(Integer id) {
+   public void setId(Long id) {
       this.id = id;
    }
 
@@ -155,7 +247,73 @@ public class User implements Serializable{
       this.password = password;
    }
 
-   public User(User user){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (isConfirmed() != user.isConfirmed()) return false;
+        if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) return false;
+        if (getUsername() != null ? !getUsername().equals(user.getUsername()) : user.getUsername() != null)
+            return false;
+        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
+            return false;
+        if (sex != null ? !sex.equals(user.sex) : user.sex != null) return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
+        if (getFirstName() != null ? !getFirstName().equals(user.getFirstName()) : user.getFirstName() != null)
+            return false;
+        if (getLastName() != null ? !getLastName().equals(user.getLastName()) : user.getLastName() != null)
+            return false;
+        if (getMobile() != null ? !getMobile().equals(user.getMobile()) : user.getMobile() != null) return false;
+        if (getRole() != null ? !getRole().equals(user.getRole()) : user.getRole() != null) return false;
+        if (getPermission() != null ? !getPermission().equals(user.getPermission()) : user.getPermission() != null)
+            return false;
+        if (getProfile() != null ? !getProfile().equals(user.getProfile()) : user.getProfile() != null) return false;
+        if (getCreateTime() != null ? !getCreateTime().equals(user.getCreateTime()) : user.getCreateTime() != null)
+            return false;
+        if (getWishList() != null ? !getWishList().equals(user.getWishList()) : user.getWishList() != null)
+            return false;
+        if (getProductList() != null ? !getProductList().equals(user.getProductList()) : user.getProductList() != null)
+            return false;
+        if (getFavorites() != null ? !getFavorites().equals(user.getFavorites()) : user.getFavorites() != null)
+            return false;
+        if (getFriendRequests() != null ? !getFriendRequests().equals(user.getFriendRequests()) : user.getFriendRequests() != null)
+            return false;
+        if (getOrderList() != null ? !getOrderList().equals(user.getOrderList()) : user.getOrderList() != null)
+            return false;
+        if (getEmotionList() != null ? !getEmotionList().equals(user.getEmotionList()) : user.getEmotionList() != null)
+            return false;
+        return getPostList() != null ? getPostList().equals(user.getPostList()) : user.getPostList() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getMobile() != null ? getMobile().hashCode() : 0);
+        result = 31 * result + (isConfirmed() ? 1 : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (getPermission() != null ? getPermission().hashCode() : 0);
+        result = 31 * result + (getProfile() != null ? getProfile().hashCode() : 0);
+        result = 31 * result + (getCreateTime() != null ? getCreateTime().hashCode() : 0);
+        result = 31 * result + (getWishList() != null ? getWishList().hashCode() : 0);
+        result = 31 * result + (getProductList() != null ? getProductList().hashCode() : 0);
+        result = 31 * result + (getFavorites() != null ? getFavorites().hashCode() : 0);
+        result = 31 * result + (getFriendRequests() != null ? getFriendRequests().hashCode() : 0);
+        result = 31 * result + (getOrderList() != null ? getOrderList().hashCode() : 0);
+        result = 31 * result + (getEmotionList() != null ? getEmotionList().hashCode() : 0);
+        result = 31 * result + (getPostList() != null ? getPostList().hashCode() : 0);
+        return result;
+    }
+
+    public User(User user){
       this.confirmed=user.isConfirmed();
       this.email=user.getEmail();
       this.username = user.getUsername();

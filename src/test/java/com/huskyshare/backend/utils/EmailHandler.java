@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,12 +26,10 @@ public class EmailHandler {
 
     @Value("${spring.mail.username}")
     private String emailAccount;   //Email goes here
-    @Value(("${spring.mail.password}"))
+    @Value("${spring.mail.password}")
     private String emailPassword;  //Pwd goes here
-    private final static String gmailHost = "smtp.gmail.com";
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final static String gmailHost = "smtp.gmail.com";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -42,6 +39,9 @@ public class EmailHandler {
 
     @Autowired
     ValidService validService;
+
+    @Autowired
+    RedisHandler  redisHandler;
 
     /**
      * BUGS!!! unknown error 530
@@ -72,7 +72,7 @@ public class EmailHandler {
         return "SEND_SUCCESS";
     }
 
-    public boolean compareCode(String address, String code){ return validService.findCodebyEmail(address.toLowerCase()).equals(code);}
+    public boolean compareCode(String address, String code){ return redisHandler.get(address.toLowerCase()).equals(code);}
 
     /**
      *
@@ -113,11 +113,7 @@ public class EmailHandler {
 
         int code = (int)(Math.random()*10000);
 
-        //redisHandler.store(address.toLowerCase(), code + "");
-        Code c = new Code();
-        c.setCode(""+code);
-        c.setEmail(address);
-        validService.save(c);
+        redisHandler.store(address.toLowerCase(), code + "");
 
         message.setContent("Hello husky!\nHere is your code: " + code, "text/html;charset=UTF-8");
 

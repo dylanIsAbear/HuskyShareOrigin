@@ -5,6 +5,7 @@ import com.huskyshare.backend.json_entity.ResponseBean;
 import com.huskyshare.backend.service.UserService;
 import com.huskyshare.backend.utils.EmailHandler;
 import com.huskyshare.backend.utils.JWTUtil;
+import com.huskyshare.backend.utils.RedisHandler;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class LoginSignUpController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisHandler redisHandler;
 
     @Autowired
     EmailHandler emailHandler;
@@ -105,7 +109,7 @@ public class LoginSignUpController {
         if(userService.findUserByUsername(username)!=null){ return new ResponseBean(403, "Duplicate username", null); }
         User user = new User();
         user.setConfirmed(false);
-        user.setEmail(email);
+        user.setEmail(email.toLowerCase());
         user.setPassword(password);
         user.setUsername(username);
         user.setRole("USER");
@@ -119,6 +123,25 @@ public class LoginSignUpController {
 
         }
         return new ResponseBean(201, "Sign up successfully!", null);
+    }
+
+    @GetMapping(value = "/rest/v1.0/verify")
+    public ResponseBean getCode(@RequestParam String email){
+        User user = userService.findUserByEmail(email.toLowerCase());
+        if(user != null && !user.isConfirmed()){
+
+           try {
+               emailHandler.sendCode(email);
+               return new ResponseBean(201, "Send code successfully", null);
+           }catch (Exception e){
+               logger.error(e.getMessage());
+               logger.error("Exception caused by: " + email);
+               return new ResponseBean(401, "Error when disolving email: " + email, null);
+           }
+        }
+        if(user == null) return new ResponseBean(401, "Null user with email: " + email, null);
+        if(user.isConfirmed()) return new ResponseBean(401, "Duplicate confirmed user with email: " + email, null);
+        return new ResponseBean(200, "", null);
     }
 
     /**
@@ -137,10 +160,7 @@ public class LoginSignUpController {
             User u = userService.findUserByEmail(email.toLowerCase());
             u.setConfirmed(true);
             userService.save(u);
-
-        }else{
-            response = new ResponseBean(401, "Verify failed", null);
-        }
+        }else{ response = new ResponseBean(401, "Verify failed", null); }
         return response;
     }
 
