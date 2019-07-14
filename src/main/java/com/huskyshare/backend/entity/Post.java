@@ -16,13 +16,13 @@ public class Post {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne
     private User user;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     private List<Post> replies;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne
     private Post parentComment;
 
     @Column(name = "post_content", length = 350)
